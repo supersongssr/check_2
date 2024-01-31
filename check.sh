@@ -98,12 +98,12 @@ function UnlockBilibiliTest() {
         result="$(echo "${result}" | grep '"code"' | awk -F 'code":' '{print $2}' | awk -F ',' '{print $1}')";
         if [ "${result}" = "0" ]; then
             echo -e " BiliBili China       : ${GREEN}Yes (Region: Mainland Only)${PLAIN}" | tee -a $log
-            SaveUnlock unlockBilibili=Yes-Region-China-Only
+            SaveUnlock unlockBilibili=yes-Region-China-Only
 			return;
         fi
     else
         echo -e " BiliBili China       : ${RED}Network connection failed${PLAIN}" | tee -a $log
-        SaveUnlock unlockBilibili=network-error
+        SaveUnlock unlockBilibili=no-network-error
 		return;
     fi
 	
@@ -114,12 +114,12 @@ function UnlockBilibiliTest() {
         result="$(echo "${result}" | grep '"code"' | awk -F 'code":' '{print $2}' | awk -F ',' '{print $1}')";
         if [ "${result}" = "0" ]; then
             echo -e " BiliBili China       : ${GREEN}Yes (Region: HongKong/Macau/Taiwan Only)${PLAIN}" | tee -a $log
-            SaveUnlock unlockBilibili=Yes-HongKong-Macau-Taiwan-Only
+            SaveUnlock unlockBilibili=yes-HongKong-Macau-Taiwan-Only
 			return;
         fi
     else
         echo -e " BiliBili China       : ${RED}Network connection failed${PLAIN}" | tee -a $log
-        SaveUnlock unlockBilibili=network-error
+        SaveUnlock unlockBilibili=no-network-error
 		return;
     fi
 	
@@ -130,12 +130,12 @@ function UnlockBilibiliTest() {
 		result="$(echo "${result}" | grep '"code"' | awk -F 'code":' '{print $2}' | awk -F ',' '{print $1}')";
 		if [ "${result}" = "0" ]; then
             echo -e " BiliBili China       : ${GREEN}Yes (Region: Taiwan Only)${PLAIN}" | tee -a $log
-            SaveUnlock unlockBilibili=Yes-Taiwan-Only
+            SaveUnlock unlockBilibili=yes-Taiwan-Only
 			return;
 		fi
 	else
 		echo -e " BiliBili China       : ${RED}Network connection failed${PLAIN}" | tee -a $log
-        SaveUnlock unlockBilibili=network-error
+        SaveUnlock unlockBilibili=no-network-error
 		return;
 	fi
 	echo -e " BiliBili China       : ${RED}No${PLAIN}" | tee -a $log
@@ -149,19 +149,19 @@ function UnlockTiktokTest() {
 		if [ -n "$result" ]; then
 			if [[ "$result" == "The #TikTokTraditions"* ]] || [[ "$result" == "This LIVE isn't available"* ]]; then
 				echo -e " TikTok               : ${RED}No${PLAIN}" | tee -a $log
-                SaveUnlock unlockTiktok=
+                SaveUnlock unlockTiktok=no
 			else
 				echo -e " TikTok               : ${GREEN}Yes (Region: ${result})${PLAIN}" | tee -a $log
-                SaveUnlock unlockTiktok=Yes-Region-${result}
+                SaveUnlock unlockTiktok=yes-Region-${result}
 			fi
 		else
 			echo -e " TikTok               : ${RED}Failed${PLAIN}" | tee -a $log
-            SaveUnlock unlockTiktok=test-failed
+            SaveUnlock unlockTiktok=no-test-failed
 			return
 		fi
     else
 		echo -e " TikTok               : ${RED}Network connection failed${PLAIN}" | tee -a $log
-        SaveUnlock unlockTiktok=Network-Error
+        SaveUnlock unlockTiktok=no-Network-Error
 	fi
 }
 
@@ -169,7 +169,7 @@ function UnlockiQiyiIntlTest() {
 	curl --user-agent "${BrowserUA}" -s -I --max-time 10 "https://www.iq.com/" >/tmp/iqiyi
     if [ $? -eq 1 ]; then
         echo -e " iQIYI International  : ${RED}Network connection failed${PLAIN}" | tee -a $log
-        SaveUnlock unlockIqiyi=network-error
+        SaveUnlock unlockIqiyi=no-network-error
         return
     fi
 
@@ -180,17 +180,17 @@ function UnlockiQiyiIntlTest() {
         if [[ "$result" == "ntw" ]]; then
             result=TW
             echo -e " iQIYI International  : ${GREEN}Yes (Region: ${result})${PLAIN}" | tee -a $log
-            SaveUnlock unlockIqiyi=Yes-Region-${result}
+            SaveUnlock unlockIqiyi=yes-Region-${result}
             return
         else
             result=$(echo $result | tr [:lower:] [:upper:])
             echo -e " iQIYI International  : ${GREEN}Yes (Region: ${result})${PLAIN}" | tee -a $log
-            SaveUnlock unlockIqiyi=Yes-Region-${result}
+            SaveUnlock unlockIqiyi=yes-Region-${result}
             return
         fi
     else
         echo -e " iQIYI International  : ${RED}Failed${PLAIN}" | tee -a $log
-        SaveUnlock unlockIqiyi=Test-Failed
+        SaveUnlock unlockIqiyi=no-Test-Failed
         return
     fi
 }
