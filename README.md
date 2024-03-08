@@ -1,7 +1,7 @@
 Streaming Media Unlock Test
 
 ```
-wget -qO- https://github.com/supersongssr/check/raw/main/check.sh | bash
+wget -qO- https://github.com/supersongssr/check_2/raw/main/check.sh | bash
 ```
 
 VPS Deals：https://hostalk.net/deals.html
